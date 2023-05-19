@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -11,8 +11,9 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { cameraOutline, pencilOutline } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
+import { pencilOutline, personCircleOutline } from 'ionicons/icons';
+import Profile from './pages/Profile';
+import EditProfile from './pages/Edit';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -40,17 +41,21 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/profile">
-            <Tab1 />
-          </Route>
           <Route exact path="/">
-            <Redirect to="/profile" />
+            <Profile />
+          </Route>
+          <Route exact path="/profile">
+            <EditProfile />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="profile" href="/profile">
-            <IonIcon aria-hidden="true" icon={pencilOutline} />
+          <IonTabButton tab="profile" href="/">
+            <IonIcon aria-hidden="true" icon={personCircleOutline} />
             <IonLabel>Profile</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="editProfile" href="/profile">
+            <IonIcon aria-hidden="true" icon={pencilOutline} />
+            <IonLabel>Edit</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
