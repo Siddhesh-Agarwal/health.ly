@@ -1,10 +1,21 @@
 import React from "react";
-import { IonPage } from "@ionic/react";
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 
 export default function Profile() {
-    return (
-        <IonPage>
-            <h1>Profile</h1>
-        </IonPage>
-    )
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Profile</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">Profile</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+      </IonContent>
+    </IonPage>
+  )
 }

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { IonButton, IonContent, IonHeader, IonInput, IonItem, IonItemDivider, IonItemGroup, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonItemDivider, IonItemGroup, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { PrismaClient, Prisma } from "@prisma/client";
 
 export default function EditProfile() {
-  type Data = {
+  type MedicalData = {
     name: string,
     height: number,
     weight: number,
@@ -14,32 +15,62 @@ export default function EditProfile() {
     identification?: string,
     emergencyContactName?: string,
     emergencyContactNumber?: string,
-    insurance?: string
+    insuranceProvider?: string
+    insuranceNumber?: string
   };
 
-  const [data, setData] = useState<Data>({} as Data);
-
-  const handleInputChange = (event: any) => {
-    const target = event.target;
-    setData({ ...data, name: target.value });
+  const prisma = new PrismaClient();
+  async function createUser(data: MedicalData) {
+    const user = await prisma.medicalData.create({
+      data: {
+        name: data.name,
+        height: data.height,
+        weight: data.weight,
+        dob: data.dob,
+        bloodGroup: data.bloodType,
+        allergies: data.allergies,
+        medications: data.medications,
+        medicalHistory: data.medicalConditions,
+        identification: data.identification,
+        emergencyContactName: data.emergencyContactName,
+        emergencyContactNumber: data.emergencyContactNumber,
+        insuranceProvider: data.insuranceProvider,
+        insuranceNumber: data.insuranceNumber
+      }
+    })
+    return user;
   }
 
-  const handleSubmit = () => {
-    // Save the data to the database
+
+  const [data, setData] = useState<MedicalData>({} as MedicalData);
+
+  function handleInputChange(event: any) {
+    const target = event.target;
+    setData({ ...data, name: target.value });
     console.log(data);
+  }
+
+  function handleSubmit() {
+    createUser(data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Profile</IonTitle>
+          <IonTitle>Edit Info</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Health Data</IonTitle>
+            <IonTitle size="large">Edit Info</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonList>
